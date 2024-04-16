@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="astyle.css">
+    <script src="ascript.js"></script>
+</head>
+<style>
+    
+</style>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#add" onclick="showSection('add')">Add</a></li>
+            <li><a href="#view" onclick="showSection('view')">View</a></li>
+            <li><a href="#delete" onclick="showSection('delete')">Delete</a></li>
+            <li><a href="#update" onclick="showSection('update')">Update</a></li>
+        </ul>
+
+    </nav>
+
+
+    <div id="view" class="hide">
+        <h2>View</h2>
+        <form onsubmit="event.preventDefault(); viewDetails();">
+            <input type="text" id="viewId" placeholder="Advisor/Student ID">
+            <input type="submit" value="View">
+        </form>
+    </div>
+
+    <div id="delete" class="hide">
+        <h2>Delete</h2>
+        <form onsubmit="event.preventDefault(); deleteRecord();">
+            <input type="text" id="deleteId" placeholder="Advisor/Student ID"><br>
+            <select id="deleteSemester">
+                <option value="all">All Semesters</option>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
+                <option value="7">Semester 7</option>
+                <option value="8">Semester 8</option>
+            </select><br>
+            <input type="submit" value="Delete">
+        </form>
+    </div>
+
+    <div id="add" class="hide">
+        <h2>Add</h2>
+        <div id="addButtons">
+            <button onclick="showForm('addAdvisor')">Add Advisor</button>
+            <button onclick="showForm('addStudent')">Add Student</button>
+        </div>
+        <div id="addAdvisor" class="hide">
+            <h3>Add Advisor</h3>
+            <form onsubmit="event.preventDefault(); addAdvisor();">
+                <input type="text" id="addAdvisorId" placeholder="Advisor ID"><br>
+                <input type="text" id="addAdvisorName" placeholder="Advisor Name"><br>
+                <input type="password" id="addAdvisorPassword" placeholder="Password"><br>
+                <input type="submit" value="Add Advisor">
+            </form>
+        </div>
+        <div id="addStudent" class="hide">
+            <h3>Add Student</h3>
+            <form onsubmit="event.preventDefault(); addStudent();">
+                <input type="text" id="addStudentId" placeholder="Student ID"><br>
+                <input type="text" id="addStudentName" placeholder="Student Name"><br>
+                <input type="text" id="addStudentDepartment" placeholder="Department"><br>
+                <input type="text" id="addStudentYear" placeholder="Year"><br>
+                <input type="text" id="addStudentSection" placeholder="Section"><br>
+                <input type="submit" value="Add Student">
+            </form>
+        </div>
+    </div>
+
+    <div id="update" class="hide">
+        <h2>Update</h2>
+        <div id="updateButtons">
+            <button onclick="showForm('updateAdvisor')">Update Advisor</button>
+            <button onclick="showForm('updateStudent')">Update Student</button>
+        </div>
+        <div id="updateAdvisor" class="hide">
+            <h3>Update Advisor</h3>
+            <form onsubmit="event.preventDefault(); updateAdvisor();">
+                <input type="text" id="updateAdvisorId" placeholder="Advisor ID"><br>
+                <input type="text" id="updateAdvisorName" placeholder="New Advisor Name"><br>
+                <input type="password" id="updateAdvisorPassword" placeholder="New Password"><br>
+                <input type="submit" value="Update Advisor">
+            </form>
+        </div>
+        <div id="updateStudent" class="hide">
+            <h3>Update Student</h3>
+            <form onsubmit="event.preventDefault(); updateStudent();">
+                <input type="text" id="updateStudentId" placeholder="Student ID"><br>
+                <input type="text" id="updateStudentName" placeholder="New Student Name"><br>
+                <input type="text" id="updateStudentDepartment" placeholder="New Department"><br>
+                <input type="text" id="updateStudentYear" placeholder="New Year"><br>
+                <input type="text" id="updateStudentSection" placeholder="New Section"><br>
+                <input type="submit" value="Update Student">
+            </form>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
