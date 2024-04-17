@@ -1,135 +1,51 @@
-function addStudent() {
-    var studentId = document.getElementById('studentId').value;
-    var name = document.getElementById('name').value;
-    var year = document.getElementById('year').value;
-    var department = document.getElementById('department').value;
-    var section = document.getElementById('section').value;
-    var semester = document.getElementById('semester').value;
-    
-    fetch('/add_student', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            studentId: studentId,
-            name: name,
-            year: year,
-            department: department,
-            section: section,
-            semester: semester
-        })
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Student added successfully');
-            // Update the UI or perform other actions here
-            // For example, you can display a success message to the user
-            alert('Student added successfully');
-            // You can also reset the form fields
-            document.getElementById('studentId').value = '';
-            document.getElementById('name').value = '';
-            document.getElementById('year').value = '';
-            document.getElementById('department').value = '';
-            document.getElementById('section').value = '';
-            document.getElementById('semester').value = '';
-        } else {
-            console.error('Error:', response.statusText);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-function viewStudent() {
-    var viewStudentId = document.getElementById('viewStudentId').value;
-    fetch(`/view_student?id=${viewStudentId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                console.log('Student details:', data);
-                // Update the UI with student details here
-                // For example, you can display the student details in a modal or table
-                // You can also populate form fields with the student data for editing
-            } else {
-                console.log('Student not found');
-                // Update the UI or perform other actions here
-                // For example, you can display a message indicating that the student was not found
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-function deleteStudent() {
-    var deleteStudentId = document.getElementById('deleteStudentId').value;
-    fetch('/delete_student', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: deleteStudentId })
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Student deleted successfully');
-            // Update the UI or perform other actions here
-            // For example, you can remove the deleted student from the list
-        } else {
-            console.error('Error:', response.statusText);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-function updateStudent() {
-    var studentId = document.getElementById('updateStudentId').value;
-    var name = document.getElementById('updateName').value;
-    var year = document.getElementById('updateYear').value;
-    var department = document.getElementById('updateDepartment').value;
-    var section = document.getElementById('updateSection').value;
-    var semester = document.getElementById('updateSemester').value;
-
-    fetch('/update_student', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: studentId,
-            name: name,
-            year: year,
-            department: department,
-            section: section,
-            semester: semester
-        })
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Student updated successfully');
-            // Update the UI or perform other actions here
-            // For example, you can display a success message to the user
-            alert('Student updated successfully');
-        } else {
-            console.error('Error:', response.statusText);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-
-function showForm(formId) {
-    // Get all form elements
-    var forms = document.querySelectorAll('div[id$="Form"]');
-    
+function showForm(action) {
     // Hide all forms
-    forms.forEach(form => {
+    var forms = document.querySelectorAll('.form-container form');
+    forms.forEach(function (form) {
         form.style.display = 'none';
     });
-    
+
     // Show the selected form
+    var formId = 'form_' + action;
     var selectedForm = document.getElementById(formId);
     if (selectedForm) {
         selectedForm.style.display = 'block';
-    } else {
-        console.error('Form with id ' + formId + ' not found.');
     }
+
+
+    // Show buttons for student and advisor
+    var studentButton = document.createElement('button');
+    studentButton.textContent = 'Student';
+    studentButton.setAttribute('id', 'sb');
+    studentButton.onclick = function () {
+        showStudentForm(action);
+        studentButton.style.backgroundColor = 'var(--bgg)'; // Change background color to green
+        advisorButton.style.backgroundColor = '';
+    };
+    var advisorButton = document.createElement('button');
+    advisorButton.textContent = 'Advisor';
+    advisorButton.setAttribute('id', 'ab');
+    advisorButton.onclick = function () {
+        studentButton.style.backgroundColor = ''; // Change background color to green
+        advisorButton.style.backgroundColor = 'var(--bgg)';
+        showAdvisorForm(action);
+    };
+    var buttonContainer = document.getElementById('buttonContainer');
+    buttonContainer.innerHTML = ''; // Clear previous buttons
+    buttonContainer.appendChild(studentButton);
+    buttonContainer.appendChild(advisorButton);
+}
+
+function showStudentForm(action) {
+    var form = document.getElementById('form_' + action + '_student');
+    form.style.display = 'block';
+    var advisorForm = document.getElementById('form_' + action + '_advisor');
+    advisorForm.style.display = 'none';
+}
+
+function showAdvisorForm(action) {
+    var form = document.getElementById('form_' + action + '_advisor');
+    form.style.display = 'block';
+    var studentForm = document.getElementById('form_' + action + '_student');
+    studentForm.style.display = 'none';
 }
